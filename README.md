@@ -1,4 +1,4 @@
-# TaskFlow Harmony
+# TaskZen
 
 A modern, intuitive task management system built with React and TypeScript. Organize your work, track progress, and boost productivity with a clean, responsive interface.
 
@@ -25,7 +25,7 @@ A modern, intuitive task management system built with React and TypeScript. Orga
 1. Clone the repository:
 ```bash
 git clone <repository-url>
-cd taskflow-harmony
+cd taskzen
 ```
 
 2. Install dependencies:
@@ -50,7 +50,7 @@ npm run dev
 ## Project Structure
 
 ```
-taskflow-harmony/
+taskzen/
 ├── src/
 │   ├── components/     # Reusable UI components
 │   ├── contexts/       # React contexts for state management

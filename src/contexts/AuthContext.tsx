@@ -35,7 +35,7 @@ const DEMO_USERS = [
   },
   {
     id: '2',
-    email: 'demo@taskflow.com',
+    email: 'demo@taskzen.com',
     password: 'demo123',
     firstName: 'Demo',
     lastName: 'User',
@@ -86,7 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else {
       toast({
         title: "Login failed",
-        description: "Invalid email or password. Try demo@taskflow.com / demo123",
+        description: "Invalid email or password. Try demo@taskzen.com / demo123",
         variant: "destructive",
       });
       
@@ -136,7 +136,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     
     toast({
       title: "Account created!",
-      description: `Welcome to TaskFlow Harmony, ${firstName}!`,
+      description: `Welcome to TaskZen, ${firstName}!`,
     });
     
     setIsLoading(false);

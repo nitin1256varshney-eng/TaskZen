@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   const handleDemoLogin = async () => {
-    const success = await login('demo@taskflow.com', 'demo123');
+    const success = await login('demo@taskzen.com', 'demo123');
     if (success) {
       navigate('/');
     }
@@ -60,7 +60,7 @@ const Login = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
           <CardDescription>
-            Sign in to your TaskFlow Harmony account
+            Sign in to your TaskZen account
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -147,7 +147,7 @@ const Login = () => {
           <div className="mt-4 p-3 bg-muted/50 rounded-lg">
             <p className="text-xs text-muted-foreground text-center">
               <strong>Demo Credentials:</strong><br />
-              Email: demo@taskflow.com<br />
+              Email: demo@taskzen.com<br />
               Password: demo123
             </p>
           </div>

@@ -77,7 +77,7 @@ const Register = () => {
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Create Account</CardTitle>
           <CardDescription>
-            Join TaskFlow Harmony to start organizing your tasks
+            Join TaskZen to start organizing your tasks
           </CardDescription>
         </CardHeader>
         <CardContent>

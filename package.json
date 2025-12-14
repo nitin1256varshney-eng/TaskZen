@@ -1,6 +1,6 @@
 {
-  "name": "taskflow-harmony",
-  "description": "A modern, intuitive task management system built with React and TypeScript",
+  "name": "taskzen",
+  "description": "TaskZen - A modern, intuitive task management system built with React and TypeScript",
   "private": true,
   "version": "1.0.0",
   "type": "module",
