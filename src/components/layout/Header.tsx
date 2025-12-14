@@ -1,7 +1,9 @@
-import { Bell, Search, Moon, Sun, Menu, User } from 'lucide-react';
+import { Bell, Search, Moon, Sun, Menu, User, Settings, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +23,23 @@ interface HeaderProps {
 
 export const Header = ({ onMenuClick, searchQuery, onSearchChange }: HeaderProps) => {
   const { theme, toggleTheme } = useTheme();
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
+  const handleSettingsClick = () => {
+    navigate('/settings');
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    navigate('/login');
+  };
+
+  const userInitials = user ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase() : 'U';
 
   return (
     <header className="h-16 border-b border-border bg-card/80 backdrop-blur-xl sticky top-0 z-40">
@@ -98,22 +117,28 @@ export const Header = ({ onMenuClick, searchQuery, onSearchChange }: HeaderProps
               <Button variant="ghost" className="gap-2 px-2">
                 <Avatar className="h-8 w-8">
                   <AvatarFallback className="bg-primary text-primary-foreground text-sm">
-                    JD
+                    {userInitials}
                   </AvatarFallback>
                 </Avatar>
-                <span className="hidden md:inline text-sm font-medium">John Doe</span>
+                <span className="hidden md:inline text-sm font-medium">
+                  {user ? `${user.firstName} ${user.lastName}` : 'User'}
+                </span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleProfileClick}>
                 <User className="mr-2 h-4 w-4" />
                 Profile
               </DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={handleSettingsClick}>
+                <Settings className="mr-2 h-4 w-4" />
+                Settings
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem onClick={handleLogoutClick} className="text-destructive">
+                <LogOut className="mr-2 h-4 w-4" />
                 Log out
               </DropdownMenuItem>
             </DropdownMenuContent>

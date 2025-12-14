@@ -1,5 +1,7 @@
-import { Moon, Sun, User, Bell, Shield, Palette } from 'lucide-react';
+import { useState } from 'react';
+import { Moon, Sun, User, Bell, Shield, Palette, Save } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +11,25 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const Settings = () => {
   const { theme, toggleTheme } = useTheme();
+  const { user, updateProfile, isLoading } = useAuth();
+  const [profileData, setProfileData] = useState({
+    firstName: user?.firstName || '',
+    lastName: user?.lastName || '',
+    email: user?.email || '',
+  });
+  const [notifications, setNotifications] = useState({
+    dueDateReminders: true,
+    taskCompletion: true,
+    emailNotifications: false,
+  });
+
+  const handleProfileSave = async () => {
+    if (user) {
+      await updateProfile(profileData);
+    }
+  };
+
+  const userInitials = user ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase() : 'U';
 
   return (
     <div className="max-w-2xl space-y-8">
@@ -27,7 +48,7 @@ const Settings = () => {
         <div className="flex items-center gap-6 mb-6">
           <Avatar className="h-20 w-20">
             <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
-              JD
+              {userInitials}
             </AvatarFallback>
           </Avatar>
           <div>
@@ -39,21 +60,49 @@ const Settings = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="firstName">First Name</Label>
-              <Input id="firstName" defaultValue="John" className="bg-secondary/50" />
+              <Input 
+                id="firstName" 
+                value={profileData.firstName}
+                onChange={(e) => setProfileData({ ...profileData, firstName: e.target.value })}
+                className="bg-secondary/50" 
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="lastName">Last Name</Label>
-              <Input id="lastName" defaultValue="Doe" className="bg-secondary/50" />
+              <Input 
+                id="lastName" 
+                value={profileData.lastName}
+                onChange={(e) => setProfileData({ ...profileData, lastName: e.target.value })}
+                className="bg-secondary/50" 
+              />
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue="john@example.com" className="bg-secondary/50" />
+            <Input 
+              id="email" 
+              type="email" 
+              value={profileData.email}
+              onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+              className="bg-secondary/50" 
+            />
           </div>
         </div>
 
         <div className="mt-6 flex justify-end">
-          <Button className="gradient-primary">Save Changes</Button>
+          <Button onClick={handleProfileSave} disabled={isLoading} className="gradient-primary">
+            {isLoading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                Saving...
+              </>
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Save Changes
+              </>
+            )}
+          </Button>
         </div>
       </div>
 
@@ -95,7 +144,10 @@ const Settings = () => {
               <p className="font-medium text-card-foreground">Due Date Reminders</p>
               <p className="text-sm text-muted-foreground">Get notified before tasks are due</p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={notifications.dueDateReminders}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, dueDateReminders: checked })}
+            />
           </div>
           <Separator />
           <div className="flex items-center justify-between">
@@ -103,7 +155,10 @@ const Settings = () => {
               <p className="font-medium text-card-foreground">Task Completion</p>
               <p className="text-sm text-muted-foreground">Notify when tasks are completed</p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={notifications.taskCompletion}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, taskCompletion: checked })}
+            />
           </div>
           <Separator />
           <div className="flex items-center justify-between">
@@ -111,7 +166,10 @@ const Settings = () => {
               <p className="font-medium text-card-foreground">Email Notifications</p>
               <p className="text-sm text-muted-foreground">Receive email for important updates</p>
             </div>
-            <Switch />
+            <Switch 
+              checked={notifications.emailNotifications}
+              onCheckedChange={(checked) => setNotifications({ ...notifications, emailNotifications: checked })}
+            />
           </div>
         </div>
       </div>
